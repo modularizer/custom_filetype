@@ -1,0 +1,7 @@
+extension: .cft
+app_name: SampleFileTypeApplication.CFT
+launch_script: $PYTHON $APP_DIR/viewer.py $FILEPATH
+thumbnail_class_id: "0724FA3A-15ED-4FE0-99C5-8531B2F61766"
+thumbnail_script: $PYTHON $APP_DIR/thumbnail.py $FILEPATH
+context_menu_scripts:
+  "Run Sample File": $PYTHON $APP_DIR/viewer.py $FILEPATH

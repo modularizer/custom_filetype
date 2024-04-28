@@ -1,3 +1,4 @@
+import datetime
 from typing import Literal
 
 from pathlib import Path
@@ -9,14 +10,19 @@ from ctypes.wintypes import DWORD
 
 from win32gui import GetDC
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
 
-out = Path(__file__).parent / "cft_log.log"
-# create file handler
-handler = logging.FileHandler(out)
-handler.setLevel(logging.DEBUG)
-logger.addHandler(handler)
+def get_file_logger(name, path):
+    logger = logging.getLogger(name)
+    logging.basicConfig(level=logging.DEBUG)
+    # create file handler
+    handler = logging.FileHandler(path)
+    handler.setLevel(logging.DEBUG)
+    logger.addHandler(handler)
+    return logger
+
+logger = get_file_logger(__name__, Path(__file__).parent / "cft_log.log")
+
+logger.info(f"{datetime.datetime.now()} - initializing")
 
 
 def bmp_bytes_to_hbitmap(bmp_bytes, cx):
@@ -72,10 +78,6 @@ class IThumbnailProvider(IUnknown):
 
 
 class ThumbnailProvider(IUnknown):
-    _reg_clsid_ = "{00000000-0000-0000-0000-000000000000}"  # Replace with a unique GUID
-    _reg_desc_ = "Python Thumbnail Provider"
-    _reg_progid_ = "Python.ThumbnailProvider"
-
     _public_methods_ = ['GetThumbnail']
     _com_interfaces_ = [IThumbnailProvider, IInitializeWithFile]
 
@@ -115,6 +117,6 @@ class ThumbnailProvider(IUnknown):
         raise NotImplementedError
 
     @classmethod
-    def register_server(cls):
+    def register(cls):
         import win32com.server.register
-        win32com.server.register.RegisterClasses(cls)
+        win32com.server.register.UseCommandLine(cls)

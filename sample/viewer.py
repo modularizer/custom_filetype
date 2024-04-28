@@ -66,6 +66,7 @@ class CustomApplicationWindow(PyQt5.QtWidgets.QMainWindow):
         sys.exit(app.exec_())
 
 
+
 if __name__ == "__main__":
     try:
         CustomApplicationWindow.run()

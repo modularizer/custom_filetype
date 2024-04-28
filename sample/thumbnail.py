@@ -1,14 +1,22 @@
+import datetime
 import io
 import sqlite3
+import sys
+from pathlib import Path
 
 import numpy as np
 import lz4.frame
 import cv2
 
 from custom_filetype import ThumbnailProvider
+from custom_filetype.thumbnail_provider import get_file_logger
 
 
 class CustomFileTypeThumbnailProvider(ThumbnailProvider):
+    _reg_clsid_ = "{0724FA3A-15ED-4FE0-99C5-8531B2F61766}"
+    _reg_progid_ = "SampleFileTypeApplication.ThumbnailProvider"
+    _reg_desc_ = "SampleFileTypeApplication Thumbnail Provider"
+
     def encode(self, data):
         with io.BytesIO() as f:
             np.save(f, data)
@@ -39,3 +47,12 @@ class CustomFileTypeThumbnailProvider(ThumbnailProvider):
         cursor.execute("INSERT INTO thumbnails (cx, thumbnail) VALUES (?, ?);", (cx, b))
         conn.commit()
         return b, 'png'
+
+
+if __name__ == "__main__":
+    logger = get_file_logger(__name__, Path(__file__).parent / "thumb_log.log")
+
+    logger.info(f"{datetime.datetime.now()} - called with {sys.argv[1:]}")
+    CustomFileTypeThumbnailProvider.register()
+
+
