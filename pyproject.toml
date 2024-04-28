@@ -1,0 +1,23 @@
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "custom_filetype"
+version = "0.0.1"
+description = "Register custom filetypes with the system"
+readme = "README.md"
+authors = [{ name = "Torin Halsted", email = "modularizer@gmail.com" }]
+license = { file = "LICENSE" }
+keywords = ["filetype", "file", "extension", "register", "windows", "registry"]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/modularizer/custom_filetype"
+
