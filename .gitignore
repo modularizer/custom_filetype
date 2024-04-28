@@ -1,0 +1,5 @@
+*.cft
+*.log
+*.egg-info
+*.idea
+venv/
